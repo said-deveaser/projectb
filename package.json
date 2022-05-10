@@ -6,7 +6,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
-    "ts-run-api": "ts-node src/api/index.ts"
+    "ts-run-api": "ts-node src/api/index.ts",
+    "ts-gen-doc": "ts-node swagger/index.ts"
   },
   "dependencies": {
     "axios": "^0.27.2",
