@@ -1,8 +1,8 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    
+
   },
-  "include": ["src"],
+  "include": ["src", "swagger"],
   "exclude": ["node_modules"]
 }
