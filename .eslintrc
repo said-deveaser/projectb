@@ -10,6 +10,11 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "quotes": ["warn", "single"],
+    "quote-props": ["warn", "consistent-as-needed"],
+    "indent": ["warn", 2],
+    "@typescript-eslint/indent": ["warn", 2],
+    "prefer-const": "warn",
     "@typescript-eslint/no-namespace": "off"
   }
 }
