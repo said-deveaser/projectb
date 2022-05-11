@@ -38,7 +38,7 @@ const doc = {
         }
       }
     },
-    host: 'localhost:4000',
+    host: 'localhost:3000',
     schemes: ['http']
    }
 

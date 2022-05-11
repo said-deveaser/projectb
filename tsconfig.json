@@ -1,7 +1,7 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-
+    "resolveJsonModule": true
   },
   "include": ["src", "swagger"],
   "exclude": ["node_modules"]
