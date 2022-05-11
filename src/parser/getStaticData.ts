@@ -1,8 +1,9 @@
 import axios from 'axios';
 import { parse } from 'node-html-parser';
 import logging from '../core/Logging/Logging';
+import {IBigCity} from '../db/models/BigCity/BigCity';
 
-export const getBigCitiesAsync = async () => {
+export const getBigCitiesAsync = async ():Promise<IBigCity[]> => {
   try {
     const urlToParseCities = 'https://krisha.kz/',
       optionsSelector = '.is-big-city'
@@ -11,10 +12,10 @@ export const getBigCitiesAsync = async () => {
     const document = parse(htmlToParse)
     return document.querySelectorAll(optionsSelector).filter(el => {
       return el.getAttribute('data-type') === 'city'
-    }).map(element => {
+    }).map((element):IBigCity => {
       return {
-        name: element.getAttribute('data-name'),
-        alias: element.getAttribute('data-alias'),
+        name: element.getAttribute('data-name') || '',
+        alias: element.getAttribute('data-alias') || '',
         id: parseInt(element.getAttribute('data-id') ?? '0'),
       }
     })
@@ -25,24 +26,22 @@ export const getBigCitiesAsync = async () => {
   }
 }
 
-
-export type DistrictsData = {
-  result: [
-    {
-      id: number,
-      alias: string,
-      name: string,
-      lat: number,
-      lon: number,
-      zoom: number,
-      hasChildren: boolean,
-      hasComplexes: boolean,
-      isBigCity: boolean,
-      type: 'district'|'city',
-      parentId: number,
-      level: number
-    },
-  ],
+interface IDistrict {
+  id: number,
+  alias: string,
+  name: string,
+  lat: number,
+  lon: number,
+  zoom: number,
+  hasChildren: boolean,
+  hasComplexes: boolean,
+  isBigCity: boolean,
+  type: 'district'|'city',
+  parentId: number,
+  level: number
+}
+export interface IDistrictsData {
+  result: IDistrict[],
   regionCount: number,
   parent: {
     id: number,
@@ -74,5 +73,5 @@ export const getCityDistrictsAsync = async (cityId:number) => {
     method: 'GET',
     // "mode": "cors",
     // "credentials": "include"
-  })).data as DistrictsData
+  })).data as IDistrictsData
 }

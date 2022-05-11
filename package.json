@@ -8,7 +8,10 @@
   "scripts": {
     "ts-run-api": "cross-env TS_NODE_FILES=true ts-node src/index.ts",
     "ts-gen-doc": "cross-env TS_NODE_FILES=true ts-node --project tsconfig.json swagger/index.ts",
-    "ts-run-test-file": "cross-env TS_NODE_FILES=true ts-node test.ts"
+    "ts-run-test-file": "cross-env TS_NODE_FILES=true ts-node test.ts",
+    "generate": "tsoa routes && tsoa swagger",
+    "build": "tsc --outDir build --experimentalDecorators",
+    "start": "node build/src/index.js"
   },
   "dependencies": {
     "axios": "^0.27.2",
@@ -17,7 +20,8 @@
     "mongoose": "^6.3.3",
     "node-html-parser": "^5.3.3",
     "swagger-autogen": "^2.21.1",
-    "swagger-ui-express": "^4.3.0"
+    "swagger-ui-express": "^4.3.0",
+    "tsoa": "^4.0.0"
   },
   "devDependencies": {
     "@tsconfig/node16": "^1.0.2",

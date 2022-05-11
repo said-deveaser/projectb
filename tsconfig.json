@@ -1,7 +1,10 @@
 {
   "extends": "@tsconfig/node16/tsconfig.json",
   "compilerOptions": {
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "target": "esnext",
+    "moduleResolution": "node",
+    "experimentalDecorators": true
   },
   "include": ["src/**/*", "swagger/**/*"],
   "exclude": ["node_modules"]

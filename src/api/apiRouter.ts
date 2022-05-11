@@ -1,6 +1,6 @@
 import express from 'express';
 import {Auth} from './routers/auth/authRouter';
-import {WaDictionaries} from './routers/wa-dictionaries/waDictionaries';
+// import {WaDictionaries} from './routers/wa-dictionaries/waDictionaries';
 
 export namespace Api {
   export const apiRouterEndpoint = '/api'
@@ -12,6 +12,6 @@ export namespace Api {
   })
   apiRouter.use(Auth.routerEndpoint, Auth.router)
 
-  apiRouter.use(WaDictionaries.routerEndpoint, WaDictionaries.router)
+  // apiRouter.use(WaDictionaries.routerEndpoint, WaDictionaries.router)
 
 }

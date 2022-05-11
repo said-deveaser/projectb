@@ -3,6 +3,7 @@ import {PORT} from './api/config/config';
 import bodyParser from 'body-parser';
 import {Api} from './api/apiRouter';
 import {Public} from './public/publicRouter';
+import { RegisterRoutes } from '../build/routes';
 const app = express()
 
 app.use(bodyParser.json())
@@ -20,7 +21,7 @@ app.use((req, res ,next) => {
 // Routers
 app.use(Public.routerEndpoint, Public.router)
 app.use(Api.apiRouterEndpoint, Api.apiRouter)
-
+RegisterRoutes(app)
 app.listen(PORT, () => {
   console.log('server is run port ' + PORT)
 })

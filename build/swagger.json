@@ -1,0 +1,224 @@
+{
+	"components": {
+		"examples": {},
+		"headers": {},
+		"parameters": {},
+		"requestBodies": {},
+		"responses": {},
+		"schemas": {
+			"IBigCity": {
+				"properties": {
+					"name": {
+						"type": "string"
+					},
+					"alias": {
+						"type": "string"
+					},
+					"id": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"name",
+					"alias",
+					"id"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDistrict": {
+				"properties": {
+					"id": {
+						"type": "number",
+						"format": "double"
+					},
+					"alias": {
+						"type": "string"
+					},
+					"name": {
+						"type": "string"
+					},
+					"lat": {
+						"type": "number",
+						"format": "double"
+					},
+					"lon": {
+						"type": "number",
+						"format": "double"
+					},
+					"zoom": {
+						"type": "number",
+						"format": "double"
+					},
+					"hasChildren": {
+						"type": "boolean"
+					},
+					"hasComplexes": {
+						"type": "boolean"
+					},
+					"isBigCity": {
+						"type": "boolean"
+					},
+					"type": {
+						"type": "string",
+						"enum": [
+							"district",
+							"city"
+						]
+					},
+					"parentId": {
+						"type": "number",
+						"format": "double"
+					},
+					"level": {
+						"type": "number",
+						"format": "double"
+					}
+				},
+				"required": [
+					"id",
+					"alias",
+					"name",
+					"lat",
+					"lon",
+					"zoom",
+					"hasChildren",
+					"hasComplexes",
+					"isBigCity",
+					"type",
+					"parentId",
+					"level"
+				],
+				"type": "object",
+				"additionalProperties": false
+			},
+			"IDistrictsData": {
+				"properties": {
+					"result": {
+						"items": {
+							"$ref": "#/components/schemas/IDistrict"
+						},
+						"type": "array"
+					},
+					"regionCount": {
+						"type": "number",
+						"format": "double"
+					},
+					"parent": {
+						"properties": {
+							"isSelectable": {
+								"type": "boolean"
+							},
+							"hasComplexes": {
+								"type": "boolean"
+							},
+							"type": {
+								"type": "string",
+								"enum": [
+									"city"
+								],
+								"nullable": false
+							},
+							"zoom": {
+								"type": "number",
+								"format": "double"
+							},
+							"lon": {
+								"type": "number",
+								"format": "double"
+							},
+							"id": {
+								"type": "number",
+								"format": "double"
+							}
+						},
+						"required": [
+							"isSelectable",
+							"hasComplexes",
+							"type",
+							"zoom",
+							"lon",
+							"id"
+						],
+						"type": "object"
+					}
+				},
+				"required": [
+					"result",
+					"regionCount",
+					"parent"
+				],
+				"type": "object",
+				"additionalProperties": false
+			}
+		},
+		"securitySchemes": {}
+	},
+	"info": {
+		"title": "kparser",
+		"version": "1.0.0",
+		"license": {
+			"name": "ISC"
+		},
+		"contact": {}
+	},
+	"openapi": "3.0.0",
+	"paths": {
+		"/api/wa-dictionaries/big-cities": {
+			"get": {
+				"operationId": "GetBigCities",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"items": {
+										"$ref": "#/components/schemas/IBigCity"
+									},
+									"type": "array"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": []
+			}
+		},
+		"/api/wa-dictionaries/city-districts/{cityid}": {
+			"get": {
+				"operationId": "GetCityDistricts",
+				"responses": {
+					"200": {
+						"description": "Ok",
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#/components/schemas/IDistrictsData"
+								}
+							}
+						}
+					}
+				},
+				"security": [],
+				"parameters": [
+					{
+						"in": "path",
+						"name": "cityid",
+						"required": true,
+						"schema": {
+							"type": "string"
+						}
+					}
+				]
+			}
+		}
+	},
+	"servers": [
+		{
+			"url": "/"
+		}
+	]
+}
