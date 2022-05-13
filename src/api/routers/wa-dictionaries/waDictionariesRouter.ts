@@ -11,12 +11,14 @@ export namespace WaDictionaries {
   router.use(withAuthMiddleware)
 
   router.get('/big-cities', (req,res) => {
-    // #swagger.description = 'Get all big cities'
-    // #swagger.summary = 'Some summary...'
-    /* #swagger.responses[200] = {
-         description: 'Array of big cities',
+    /*
+     #swagger.description = 'Получить список крупных городов'
+     #swagger.summary = 'Города'
+     #swagger.tags = ['Справочники (Необходима авторизация)']
+     #swagger.path = '/wa-dictionaries/big-cities'
+     #swagger.responses[200] = {
+         description: 'Список городов:',
          schema: { $ref: '#/definitions/BigCities' }
-
      } */
     getBigCitiesAsync().then(cities => {
       res.set({'Content-Type': 'application/json'});
@@ -25,17 +27,21 @@ export namespace WaDictionaries {
     })
   })
   router.get('/city-districts/:cityid', (req,res) => {
-    /* #swagger.description = 'Get all districts related the BigCity'
-    #swagger.parameters['cityid'] = {
-      in: 'path',
-      description: 'ID Города',
-      required: true,
-      type: Number
-    }
-    #swagger.responses[200] = {
-      description: 'Array of big cities',
-      schema: { $ref: '#/definitions/AllCityDistricts' }
-    } */
+    /*
+     #swagger.description = 'Получить список районов города'
+     #swagger.summary = 'Районы'
+     #swagger.path = '/wa-dictionaries/city-districts/{cityid}'
+     #swagger.tags = ['Справочники (Необходима авторизация)']
+     #swagger.parameters['cityid'] = {
+       in: 'path',
+       description: 'ID Города',
+       required: true,
+       type: Number
+     }
+     #swagger.responses[200] = {
+       description: 'Список районов',
+       schema: { $ref: '#/definitions/AllCityDistricts' }
+     } */
     const cityId = parseInt(req.params['cityid'])
     if (isNaN(cityId)) {
       wrongParamsOrUrl(res)

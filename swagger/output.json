@@ -6,11 +6,100 @@
     "version": "1.0.0"
   },
   "host": "localhost:3000",
-  "basePath": "/",
+  "basePath": "/api",
   "schemes": [
     "http"
   ],
-  "paths": {},
+  "paths": {
+    "/auth/token": {
+      "post": {
+        "tags": [
+          "Авторизация"
+        ],
+        "summary": "Токен",
+        "description": "Получить новый токен",
+        "parameters": [
+          {
+            "name": "partner",
+            "description": "Токен партнера",
+            "required": true,
+            "in": "query",
+            "type": "string"
+          },
+          {
+            "name": "date_expire",
+            "description": "Дата окончания работы токена, по умолчанию 1мес, максимум год",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "example": "10.10.2010"
+            },
+            "in": "query"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Новый токен пользователя. Если токен не авторизуют в течении 24 часов, то он становится недействительным:",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_token": {
+                  "type": "string",
+                  "example": "string"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/wa-dictionaries/big-cities": {
+      "get": {
+        "tags": [
+          "Справочники (Необходима авторизация)"
+        ],
+        "summary": "Города",
+        "description": "Получить список крупных городов",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Список городов:",
+            "schema": {
+              "$ref": "#/definitions/BigCities"
+            }
+          }
+        }
+      }
+    },
+    "/wa-dictionaries/city-districts/{cityid}": {
+      "get": {
+        "tags": [
+          "Справочники (Необходима авторизация)"
+        ],
+        "summary": "Районы",
+        "description": "Получить список районов города",
+        "parameters": [
+          {
+            "name": "cityid",
+            "in": "path",
+            "required": true,
+            "description": "ID Города"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список районов",
+            "schema": {
+              "$ref": "#/definitions/AllCityDistricts"
+            }
+          }
+        }
+      }
+    }
+  },
   "definitions": {
     "BigCity": {
       "type": "object",

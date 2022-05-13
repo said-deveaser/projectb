@@ -60,6 +60,7 @@ export const swaggerDoc = {
       }
     }
   },
+  basePath: '/api',
   host: 'localhost:3000',
   schemes: ['http']
 }

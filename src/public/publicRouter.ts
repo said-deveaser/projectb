@@ -1,5 +1,5 @@
 import express from "express";
-import {ApiDoc} from "../api/routers/api-doc/apiDocRouter";
+import {ApiDoc} from "./api-doc/apiDocRouter";
 
 export namespace Public {
   export const routerEndpoint = '/'
