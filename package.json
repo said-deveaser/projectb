@@ -6,6 +6,8 @@
   "author": "",
   "license": "ISC",
   "scripts": {
+    "start": "node dist/src/index.js",
+    "build": "tsc",
     "dev-run": "nodemon",
     "ts-run-api": "cross-env TS_NODE_FILES=true ts-node src/index.ts",
     "ts-gen-doc": "cross-env TS_NODE_FILES=true ts-node --project tsconfig.json swagger/index.ts",
