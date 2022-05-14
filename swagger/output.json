@@ -2,7 +2,7 @@
   "swagger": "2.0",
   "info": {
     "title": "KParser API",
-    "description": "Документация к АПИ парсер одного не безизвестного сайта",
+    "description": "Документация к АПИ парсер одного не безизвестного сайта\n * Где помечено (Права админа) нужно в заголовках указывать токен админа под ключом \"adm_token\"\n * Где помечено (Необходима авторизация) нужно в заголовках указывать токен юзера под ключом \"user_token\"",
     "version": "1.0.0"
   },
   "host": "localhost:3000",
@@ -14,10 +14,10 @@
     "/auth/token": {
       "post": {
         "tags": [
-          "Авторизация"
+          "Новый токен юзера (Права админа)"
         ],
-        "summary": "Токен",
-        "description": "Получить новый токен",
+        "summary": "Получить токен юзера",
+        "description": "Получить новый токен юзера",
         "parameters": [
           {
             "name": "partner",
@@ -46,12 +46,105 @@
                 "user_token": {
                   "type": "string",
                   "example": "string"
+                },
+                "expire_date": {
+                  "type": "string",
+                  "example": "10.10.2023"
                 }
               },
               "xml": {
                 "name": "main"
               }
             }
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "put": {
+        "tags": [
+          "Авторизация"
+        ],
+        "summary": "Зарегестрировать пользователя",
+        "description": "Привязать токен юзера к его логину и активировать токен",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "description": "Токен юзера и Логин",
+            "format": "json",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_token": {
+                  "type": "string",
+                  "example": "token"
+                },
+                "user_login": {
+                  "type": "string",
+                  "example": "telegram_name"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Возращается токен пользователя. Уже зарегестрированый:",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "user_token": {
+                  "type": "string",
+                  "example": "string"
+                },
+                "expire_date": {
+                  "type": "string",
+                  "example": "10.10.2023"
+                }
+              },
+              "xml": {
+                "name": "main"
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Авторизация"
+        ],
+        "summary": "Удалить токен (Права админа)",
+        "description": "Удалить токен юзера (Права админа)",
+        "parameters": [
+          {
+            "name": "user_token",
+            "in": "query",
+            "required": true,
+            "description": "Токен юзера ",
+            "type": "string",
+            "format": "json",
+            "schema": {
+              "type": "string",
+              "example": "token"
+            }
+          },
+          {
+            "name": "adm_token",
+            "in": "header",
+            "required": true,
+            "description": "Токен админа",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Удаляет токен из базы:"
           }
         }
       }
@@ -63,7 +156,19 @@
         ],
         "summary": "Города",
         "description": "Получить список крупных городов",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "user_token",
+            "in": "header",
+            "required": true,
+            "description": "Токен юзера",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "token"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Список городов:",
@@ -87,6 +192,17 @@
             "in": "path",
             "required": true,
             "description": "ID Города"
+          },
+          {
+            "name": "user_token",
+            "in": "header",
+            "required": true,
+            "description": "Токен юзера",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "token"
+            }
           }
         ],
         "responses": {
@@ -101,6 +217,15 @@
     }
   },
   "definitions": {
+    "ErrorResponse (вместе со статусом ответа приходит)": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string",
+          "example": "Описание ошибки"
+        }
+      }
+    },
     "BigCity": {
       "type": "object",
       "properties": {

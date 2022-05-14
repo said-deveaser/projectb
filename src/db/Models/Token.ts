@@ -12,6 +12,7 @@ interface IToken {
 }
 interface ITokenMethods {
   isTokenActive: () => boolean
+  isTokenRegistered: () => boolean
 }
 
 const tokenSchema = new Schema<IToken, Model<IToken, Record<string, unknown>, ITokenMethods>, ITokenMethods>({
@@ -39,10 +40,14 @@ const tokenSchema = new Schema<IToken, Model<IToken, Record<string, unknown>, IT
 tokenSchema.methods.isTokenActive = function () {
   const thisToken = this as never as IToken
   if (thisToken.user_id) {
-    return thisToken.authorized_expire_time < (new Date())
+    return thisToken.authorized_expire_time > (new Date())
   }
-  return thisToken.time_expired < (new Date())
+  return thisToken.time_expired > (new Date())
+}
 
+tokenSchema.methods.isTokenRegistered = function () {
+  const thisToken = this as never as IToken
+  return !!thisToken.user_id
 }
 
 export const Token = connection.model<IToken, Model<IToken, Record<string, unknown>, ITokenMethods>>('Token', tokenSchema)

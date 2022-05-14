@@ -2,24 +2,30 @@ export const swaggerDoc = {
   // общая информация
   info: {
     title: 'KParser API',
-    description: 'Документация к АПИ парсер одного не безизвестного сайта'
+    description: 'Документация к АПИ парсер одного не безизвестного сайта' +
+      '\n * Где помечено (Права админа) нужно в заголовках указывать токен админа под ключом "adm_token"' +
+      '\n * Где помечено (Необходима авторизация) нужно в заголовках указывать токен юзера под ключом "user_token"'
   },
   // что-то типа моделей
   definitions: {
+    // Error
+    'ErrorResponse (вместе со статусом ответа приходит)': {
+      message: 'Описание ошибки'
+    },
     // модель задачи
-    BigCity: {
+    'BigCity': {
       name: 'Алматы',
       alias: 'Almaty',
       id: 2
     },
     // модель массива задач
-    BigCities: [
+    'BigCities': [
       {
         // ссылка на модель задачи
         $ref: '#/definitions/BigCity'
       }
     ],
-    CityDistrict: {
+    'CityDistrict': {
       id: 3,
       alias: 'almaty-alatauskij',
       name: 'Алатауский р-н',
@@ -33,7 +39,7 @@ export const swaggerDoc = {
       parentId: 2,
       level: 3
     },
-    AllCityDistricts: {
+    'AllCityDistricts': {
       result: [{
         $ref: '#/definitions/CityDistrict'
       }],
@@ -49,11 +55,11 @@ export const swaggerDoc = {
 
     },
     // модель объекта с текстом новой задачи
-    Text: {
+    'Text': {
       text: 'test'
     },
     // модель объекта с изменениями существующей задачи
-    Changes: {
+    'Changes': {
       changes: {
         text: 'test',
         done: true
@@ -61,6 +67,6 @@ export const swaggerDoc = {
     }
   },
   basePath: '/api',
-  host: 'localhost:3000',
-  schemes: ['http']
+  host: 'krisha-parser.herokuapp.com',
+  schemes: ['https']
 }

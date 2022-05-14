@@ -16,6 +16,13 @@ export namespace WaDictionaries {
      #swagger.summary = 'Города'
      #swagger.tags = ['Справочники (Необходима авторизация)']
      #swagger.path = '/wa-dictionaries/big-cities'
+     #swagger.parameters['user_token'] = {
+       in: 'header',
+       required: true,
+       description: 'Токен юзера',
+       type: 'string',
+       schema: "token"
+     }
      #swagger.responses[200] = {
          description: 'Список городов:',
          schema: { $ref: '#/definitions/BigCities' }
@@ -38,10 +45,18 @@ export namespace WaDictionaries {
        required: true,
        type: Number
      }
+     #swagger.parameters['user_token'] = {
+       in: 'header',
+       required: true,
+       description: 'Токен юзера',
+       type: 'string',
+       schema: "token"
+     }
      #swagger.responses[200] = {
        description: 'Список районов',
        schema: { $ref: '#/definitions/AllCityDistricts' }
      } */
+
     const cityId = parseInt(req.params['cityid'])
     if (isNaN(cityId)) {
       wrongParamsOrUrl(res)
