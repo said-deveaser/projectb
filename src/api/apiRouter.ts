@@ -3,6 +3,7 @@ import {Auth} from './routers/auth/authRouter';
 import {WaDictionaries} from './routers/wa-dictionaries/waDictionariesRouter';
 import {DBConnect} from '../db/DBConnect';
 import {responseError} from './helpers/helpers';
+import {ParserRouter} from "./routers/parser/parserRouter";
 
 export namespace Api {
   export const apiRouterEndpoint = '/api'
@@ -24,7 +25,7 @@ export namespace Api {
     next()
   })
   apiRouter.use(Auth.routerEndpoint, Auth.router)
-
   apiRouter.use(WaDictionaries.routerEndpoint, WaDictionaries.router)
+  apiRouter.use(ParserRouter.routerEndpoint, ParserRouter.router)
 
 }

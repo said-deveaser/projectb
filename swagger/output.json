@@ -5,10 +5,10 @@
     "description": "Документация к АПИ парсер одного не безизвестного сайта\n * Где помечено (Права админа) нужно в заголовках указывать токен админа под ключом \"adm_token\"\n * Где помечено (Необходима авторизация) нужно в заголовках указывать токен юзера под ключом \"user_token\"",
     "version": "1.0.0"
   },
-  "host": "krisha-parser.herokuapp.com",
+  "host": "localhost:3000",
   "basePath": "/api",
   "schemes": [
-    "https"
+    "http"
   ],
   "paths": {
     "/auth/token": {
@@ -214,6 +214,91 @@
           }
         }
       }
+    },
+    "/parser/posts": {
+      "get": {
+        "tags": [
+          "Парсер (Необходима авторизация)"
+        ],
+        "summary": "Обяъявления (Необходима авторизация)",
+        "description": "Получить список 10 последних объявлений",
+        "parameters": [
+          {
+            "name": "propertyType",
+            "in": "query",
+            "required": true,
+            "description": "Дома или Квартиры",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "(kvartiry|doma)"
+            }
+          },
+          {
+            "name": "purchaseType",
+            "in": "query",
+            "required": true,
+            "description": "Продажа или Аренда",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "(arenda|prodazha)"
+            }
+          },
+          {
+            "name": "price_from",
+            "in": "query",
+            "required": false,
+            "description": "Цена от ...",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "100000"
+            }
+          },
+          {
+            "name": "price_to",
+            "in": "query",
+            "required": false,
+            "description": "Цена до ...",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "110000"
+            }
+          },
+          {
+            "name": "district",
+            "in": "query",
+            "required": false,
+            "description": "Район или город (из справочника Районов)",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "(almaty|almaty-alatauskij)"
+            }
+          },
+          {
+            "name": "user_token",
+            "in": "header",
+            "required": true,
+            "description": "Токен юзера",
+            "type": "string",
+            "schema": {
+              "type": "string",
+              "example": "token"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Список объявдений:",
+            "schema": {
+              "$ref": "#/definitions/BigCities"
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -224,6 +309,16 @@
           "type": "string",
           "example": "Описание ошибки"
         }
+      }
+    },
+    "Post": {
+      "type": "object",
+      "properties": {}
+    },
+    "Posts": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Post"
       }
     },
     "BigCity": {

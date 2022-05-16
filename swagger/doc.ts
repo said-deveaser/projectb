@@ -1,3 +1,5 @@
+import dotenv from 'dotenv'
+dotenv.config()
 export const swaggerDoc = {
   // общая информация
   info: {
@@ -12,6 +14,8 @@ export const swaggerDoc = {
     'ErrorResponse (вместе со статусом ответа приходит)': {
       message: 'Описание ошибки'
     },
+    'Post': {},
+    'Posts': [{$ref: '#/definitions/Post'}],
     // модель задачи
     'BigCity': {
       name: 'Алматы',
@@ -67,6 +71,6 @@ export const swaggerDoc = {
     }
   },
   basePath: '/api',
-  host: 'krisha-parser.herokuapp.com',
-  schemes: ['https']
+  host: process.env['API_HOSTNAME'],
+  schemes: process.env['API_HOSTNAME'] === 'localhost:3000' ? ['http'] : ['https']
 }
