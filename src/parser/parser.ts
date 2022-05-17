@@ -1,6 +1,18 @@
 import {PropertyAlias, PurchaseAlias} from './types';
+import axios from "axios";
+import {parse} from "node-html-parser";
+import * as fs from "fs";
+import e from "express";
+
 
 export namespace Parser {
+  const selectors = {
+    postsWrapper: '.a-list',
+    postWrapper: '[data-id]',
+    postTitle: '.a-card__title',
+    postPrice: '.a-card__price'
+  }
+
   interface MakeUrlQueryParams {
     'das[price][from]'?: string
     'das[price][to]'?: string
@@ -40,9 +52,35 @@ export namespace Parser {
 
     return url
   }
-}
 
-Parser.makeUrlToParse({
-  propertyType: PropertyAlias.Doma,
-  purchaseType: PurchaseAlias.Prodazha
-})
+  interface IPost {
+    id: string | null
+    title: string
+    price: number
+  }
+  export const getPostsAsync = async (params: MakeUrlOptions):Promise<IPost[]> => {
+    const html = (await axios.get(makeUrlToParse(params))).data
+    const document = parse(html)
+    const postsWrapper = document.querySelectorAll(selectors.postsWrapper)[0]
+    if (!postsWrapper) {
+      return []
+    }
+    const postElements = postsWrapper.querySelectorAll(selectors.postWrapper)
+    return postElements.map((elem):IPost => {
+
+      return  {
+        id: elem.getAttribute('data-id') ?? null,
+        title: elem.querySelector(selectors.postTitle)?.textContent ?? '',
+        price: parseInt(elem.querySelector(selectors.postPrice)?.textContent?.replace(/[^0-9]/g, '') ?? '0'),
+
+      }
+    })
+
+
+    // fs.writeFile('./in.html', postsWrapper.toString(), () => {
+    //   console.log('succes')
+    // })
+
+  }
+
+}

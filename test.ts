@@ -8,14 +8,13 @@ import {PropertyAlias, PurchaseAlias} from './src/parser/types';
   // await getCityDistrictsAsync(2).then(res => {
   //   console.log(res)
   // })
-  const url = Parser.makeUrlToParse({
-    queryParams: {
-      'das[price][from]': 10000000,
-      'das[price][to]': 12000000,
-    },
+  Parser.getPostsAsync({
     purchaseType: PurchaseAlias.Arenda,
     district: 'almaty',
     propertyType: PropertyAlias.Kvartiry
+  }).then(res => {
+    console.log(res)
   })
-  console.log(url)
+
+
 })()
